@@ -5,7 +5,7 @@ pipeline {
           maven 'maven_jenkins'
     }
     stages {
-        stage('Compile') {
+        stage(' Compile ') {
             steps {
                 echo 'TODO: build'
                 sh "./mvnw clean compile -e"
@@ -58,7 +58,7 @@ pipeline {
 		}
 	      
        }
-       stage ('Send to Nexus 1.0.0')
+       stage ('Send to  Nexus 1.0.0')
        {
        	   steps 
 		{
