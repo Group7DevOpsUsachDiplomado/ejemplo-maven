@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools 
+    tools
     {
           maven 'maven_jenkins'
     }
@@ -27,7 +27,7 @@ pipeline {
  	{
             steps
             {
-               withSonarQubeEnv(credentialsId: 'rnpijenkins', installationName: 'rnpisonarqube')
+               withSonarQubeEnv(credentialsId: 'token sonarqube', installationName: 'vbpsonarqube')
                {
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                }
