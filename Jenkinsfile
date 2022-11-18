@@ -27,7 +27,7 @@ pipeline {
  	{
             steps
             {
-               withSonarQubeEnv(credentialsId: 'rnpijenkins', installationName: 'rnpisonarqube')
+               withSonarQubeEnv(credentialsId: 'SoniToken', installationName: 'sonita')
                {
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                }
@@ -42,14 +42,14 @@ pipeline {
        stage('ToRepository')
        {
            steps {
-                  nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '001']]]
+                  nexusPublisher nexusInstanceId: 'nxs01', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: '"${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"']], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]], tagName: 'nxs01'
                   }
        }
        stage ('Download Jar from Nexus')
        { 
 	   steps
 		{
-   		  sh 'curl http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-001.jar --output /tmp/DevOpsUsach2020-001.jar'
+   		  sh 'curl https://a8eb-190-95-45-203.sa.ngrok.io/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-001.jar --output /tmp/DevOpsUsach2020-001.jar'
                   sh 'nohup java -jar /tmp/DevOpsUsach2020-001.jar &'
 		  sh 'sleep 5'
                   sh 'curl -X GET  http://localhost:8081/rest/mscovid/test?msg=testing'
