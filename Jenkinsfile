@@ -49,7 +49,7 @@ pipeline {
        { 
 	   steps
 		{
-   		  sh 'curl https://a8eb-190-95-45-203.sa.ngrok.io/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-001.jar --output /tmp/DevOpsUsach2020-001.jar'
+   		  sh 'curl https://1987-190-95-45-203.sa.ngrok.io/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-001.jar --output /tmp/DevOpsUsach2020-001.jar'
                   sh 'nohup java -jar /tmp/DevOpsUsach2020-001.jar &'
 		  sh 'sleep 5'
                   sh 'curl -X GET  http://localhost:8081/rest/mscovid/test?msg=testing'
