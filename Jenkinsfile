@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools 
     {
-          maven 'maven_jenkins'
+          maven 'maven_env'
     }
     stages {
         stage(' Compile ') {
@@ -27,7 +27,7 @@ pipeline {
  	{
             steps
             {
-               withSonarQubeEnv(credentialsId: 'rnpijenkins', installationName: 'rnpisonarqube')
+               withSonarQubeEnv(credentialsId: 'sonar_jenkins', installationName: 'sonarqube_env')
                {
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                }
@@ -45,19 +45,7 @@ pipeline {
                   nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '001']]]
                   }
        }
-       stage ('Download Jar from Nexus')
-       { 
-	   steps
-		{
-   		  sh 'curl http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-001.jar --output /tmp/DevOpsUsach2020-001.jar'
-                  sh 'nohup java -jar /tmp/DevOpsUsach2020-001.jar &'
-		  sh 'sleep 5'
-                  sh 'curl -X GET  http://localhost:8081/rest/mscovid/test?msg=testing'
-                  echo "Stopping App"
-                  sh 'pkill -f "java -jar /tmp/DevOpsUsach2020-001.jar"'
-		}
-	      
-       }
+	     
        stage ('Send to  Nexus 1.0.0')
        {
        	   steps 
